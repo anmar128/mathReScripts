@@ -923,7 +923,14 @@ public class GameController : MonoBehaviour {
 				break;
 			}
 			// Change the y-axis value of listPosition -- To be used for the next action
-			listPosition.y = listPosition.y - 1.1f;
+			// Due to the possibility of 10+ moves, a second column is used when reaching 7
+			if (i == 6) {
+				listPosition.x = listPosition.x + 1.1f;
+				listPosition.y = listStartValues.y;
+			} 
+			else {
+				listPosition.y = listPosition.y - 1.1f;
+			}
 		}
 	}
 
