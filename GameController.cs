@@ -269,6 +269,31 @@ public class GameController : MonoBehaviour {
 						movs = DeleteFromActionList (movs, 10);
 						EnqueueToActionList (movs);
 					}
+					if ((hitTag == "action11") && (Time.time > nextClick)) {
+						nextClick = Time.time + clickRate;
+						movs = DeleteFromActionList (movs, 11);
+						EnqueueToActionList (movs);
+					}
+					if ((hitTag == "action12") && (Time.time > nextClick)) {
+						nextClick = Time.time + clickRate;
+						movs = DeleteFromActionList (movs, 12);
+						EnqueueToActionList (movs);
+					}
+					if ((hitTag == "action13") && (Time.time > nextClick)) {
+						nextClick = Time.time + clickRate;
+						movs = DeleteFromActionList (movs, 13);
+						EnqueueToActionList (movs);
+					}
+					if ((hitTag == "action14") && (Time.time > nextClick)) {
+						nextClick = Time.time + clickRate;
+						movs = DeleteFromActionList (movs, 14);
+						EnqueueToActionList (movs);
+					}
+					if ((hitTag == "action15") && (Time.time > nextClick)) {
+						nextClick = Time.time + clickRate;
+						movs = DeleteFromActionList (movs, 15);
+						EnqueueToActionList (movs);
+					}
 
 					// Enter play mode -- click on Play button
 					if ((hitTag == "butPlay") && (Time.time > nextClick)) {
@@ -767,7 +792,7 @@ public class GameController : MonoBehaviour {
 
 		// List containing the actions -- To be used for tags
 		GameObject[] actionList;
-		actionList = new GameObject[10];
+		actionList = new GameObject[15];
 
 		// Delete items created from previous function calls
 		GameObject[] prevList;
@@ -817,6 +842,36 @@ public class GameController : MonoBehaviour {
 			for (int i = 0; i < prevList.Length; i++){
 				Destroy (prevList[i]);
 			}
+			// Delete copies of items tagged "action10"
+			prevList = GameObject.FindGameObjectsWithTag ("action10");
+			for (int i = 0; i < prevList.Length; i++){
+				Destroy (prevList[i]);
+			}
+			// Delete copies of items tagged "action11"
+			prevList = GameObject.FindGameObjectsWithTag ("action11");
+			for (int i = 0; i < prevList.Length; i++){
+				Destroy (prevList[i]);
+			}
+			// Delete copies of items tagged "action12"
+			prevList = GameObject.FindGameObjectsWithTag ("action12");
+			for (int i = 0; i < prevList.Length; i++){
+				Destroy (prevList[i]);
+			}
+			// Delete copies of items tagged "action13"
+			prevList = GameObject.FindGameObjectsWithTag ("action13");
+			for (int i = 0; i < prevList.Length; i++){
+				Destroy (prevList[i]);
+			}
+			// Delete copies of items tagged "action14"
+			prevList = GameObject.FindGameObjectsWithTag ("action14");
+			for (int i = 0; i < prevList.Length; i++){
+				Destroy (prevList[i]);
+			}
+			// Delete copies of items tagged "action15"
+			prevList = GameObject.FindGameObjectsWithTag ("action15");
+			for (int i = 0; i < prevList.Length; i++){
+				Destroy (prevList[i]);
+			}
 		}
 
 		for (int i = 0; i < movs.Length; i++) {
@@ -852,6 +907,21 @@ public class GameController : MonoBehaviour {
 				break;
 			case 9:
 				nextTag = "action10";
+				break;
+			case 10:
+				nextTag = "action11";
+				break;
+			case 11:
+				nextTag = "action12";
+				break;
+			case 12:
+				nextTag = "action13";
+				break;
+			case 13:
+				nextTag = "action14";
+				break;
+			case 14:
+				nextTag = "action15";
 				break;
 				//default:
 				//	print("Unexpected error!");
@@ -924,7 +994,8 @@ public class GameController : MonoBehaviour {
 			}
 			// Change the y-axis value of listPosition -- To be used for the next action
 			// Due to the possibility of 10+ moves, a second column is used when reaching 7
-			if (i == 6) {
+			// CHANGE TO EIGHT SO THERE's ROOM FOR 15 MOVS
+			if (i == 7) {
 				listPosition.x = listPosition.x + 1.1f;
 				listPosition.y = listStartValues.y;
 			} 
