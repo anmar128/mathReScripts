@@ -8,12 +8,13 @@ public class GameController : MonoBehaviour {
 	// for gameview initialization
 	public Vector3 robotValues = new Vector3 (0f, 2.5f, 0f);
 	public Vector3 startValues = new Vector3 (0f, 1.5f, 0f);
-	public Vector3 finishValues = new Vector3 (0f, 1.8f, 0f);
+	public Vector3 finishValues = new Vector3 (0f, 1.9f, 0f);
 	public GameObject robot;
 	public GameObject startPoint;
 	public GameObject finishPoint;
 	public GameObject breakPoint;
 	public GameObject youWin;
+	public GameObject tada;
 
 	// GameObject and Vector3 variables to be used
 	// for actionList initialization and updates
@@ -590,6 +591,9 @@ public class GameController : MonoBehaviour {
 	IEnumerator MoveRobot (string movs) {
 		char nextMov;
 		float timish;
+		GameObject tadaCl;
+		Vector3 tadaPosition;
+		Quaternion tadaRotation;
 		// Variables holding current point position-rotation to be used for instantiation -- Convert currPoint to string
 		//string currStr = currPoint.ToString();
 		Vector3 currPosition = new Vector3 (ValueX(currPointX), robotValues.y + ValueY(currPointY), robotValues.z);
@@ -700,10 +704,19 @@ public class GameController : MonoBehaviour {
 		}
 		// Check the result
 		if ((currPointX == randFinishX) && (currPointY == randFinishY)){
-			Vector3 bravoPosition = new Vector3 (0, 0, 0);
-			Quaternion bravoRotation = Quaternion.identity;
-			GameObject bravo = Instantiate (youWin, bravoPosition, bravoRotation) as GameObject;
-			bravo.gameObject.tag = "youwin";
+			//Vector3 bravoPosition = new Vector3 (0, 0, 0);
+			//Quaternion bravoRotation = Quaternion.identity;
+			//GameObject bravo = Instantiate (youWin, bravoPosition, bravoRotation) as GameObject;
+			//bravo.gameObject.tag = "youwin";
+			GameObject[] prevList;
+			prevList = GameObject.FindGameObjectsWithTag ("Player");
+			for (int i = 0; i < prevList.Length; i++) {
+				Destroy (prevList[i]);
+			}
+			tadaPosition = robotCl.transform.position;
+			tadaRotation = robotCl.transform.rotation;
+			tadaCl = Instantiate (tada, tadaPosition, tadaRotation) as GameObject;
+			tadaCl.gameObject.tag = "youwin";
 		}
 		playMode = 0;
 	}
