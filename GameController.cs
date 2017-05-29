@@ -21,8 +21,8 @@ public class GameController : MonoBehaviour {
 	public Vector3 listStartValues = new Vector3 (-7.2f, 5.2f, 0f);
 	public Vector3 pressPlayValues = new Vector3 (-6.25f, -3.5f, 0f);
 	public Vector3 pressStopValues = new Vector3 (-7.25f, -3.5f, 0f);
-	//public Vector3 pressRestartValues = new Vector3 (7.5f, 5.5f, 0f);
-	public Vector3 pressRestartValues = new Vector3 (3.9f, 5.5f, 0f);
+	public Vector3 pressRestartValues = new Vector3 (7.5f, 5.5f, 0f);
+	public Vector3 pressWinstartValues = new Vector3 (3.9f, 5.5f, 0f);
 
 	public GameObject listBk10;
 	public GameObject listBk05;
@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour {
 	public GameObject pressPlay;
 	public GameObject pressStop;
 	public GameObject pressRestart;
+	public GameObject pressWinstart;
 	private int clickdRestart = 0;
 	private int winRestart = 0;
 
@@ -148,7 +149,6 @@ public class GameController : MonoBehaviour {
 							Destroy (prevList [i]);
 						}
 						clickdRestart = 0;
-						print ("WORKFUK");
 						Application.LoadLevel ("Scene01");
 					}
 					else {
@@ -726,9 +726,9 @@ public class GameController : MonoBehaviour {
 			winRestart = 1;
 			clickdRestart = 1;
 			// Manually display restart button
-			Vector3 butPosition = pressRestartValues;
+			Vector3 butPosition = pressWinstartValues;
 			Quaternion butRotation = Quaternion.identity;
-			GameObject pressButton = Instantiate (pressRestart, butPosition, butRotation) as GameObject;
+			GameObject pressButton = Instantiate (pressWinstart, butPosition, butRotation) as GameObject;
 			pressButton.gameObject.tag = "pressdRestart";
 		}
 		playMode = 0;
