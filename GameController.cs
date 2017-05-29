@@ -817,6 +817,11 @@ public class GameController : MonoBehaviour {
 		Vector3 listPosition = new Vector3 (listStartValues.x, listStartValues.y, listStartValues.z);
 		Quaternion listRotation = Quaternion.identity;
 
+		// In case of more than 15 moves, restart without notification
+		if (movs.Length > 15) {
+			Application.LoadLevel ("Scene01");
+		}
+
 		// List containing the actions -- To be used for tags
 		GameObject[] actionList;
 		actionList = new GameObject[15];
