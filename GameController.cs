@@ -21,7 +21,8 @@ public class GameController : MonoBehaviour {
 	public Vector3 listStartValues = new Vector3 (-7.2f, 5.2f, 0f);
 	public Vector3 pressPlayValues = new Vector3 (-6.25f, -3.5f, 0f);
 	public Vector3 pressStopValues = new Vector3 (-7.25f, -3.5f, 0f);
-	public Vector3 pressRestartValues = new Vector3 (7.5f, 5.5f, 0f);
+	//public Vector3 pressRestartValues = new Vector3 (7.5f, 5.5f, 0f);
+	public Vector3 pressRestartValues = new Vector3 (3.9f, 5.5f, 0f);
 
 	public GameObject listBk10;
 	public GameObject listBk05;
@@ -39,6 +40,7 @@ public class GameController : MonoBehaviour {
 	public GameObject pressStop;
 	public GameObject pressRestart;
 	private int clickdRestart = 0;
+	private int winRestart = 0;
 
 	// GameObject and Vector3 variables to be used
 	// for numbers-in-the-gameview initialization
@@ -87,6 +89,7 @@ public class GameController : MonoBehaviour {
 	public float yMin = -1.5f;
 	public float yMax = 6.5f;
 	private float speed = 0.5f;
+	private AudioSource audioSource;
 
 	// Initialization
 	// For the maximum startValueX/Y and finishValueX/Y shall be
@@ -96,6 +99,7 @@ public class GameController : MonoBehaviour {
 	// startPointY ~ [-7,7], finishPointY ~ [-20,-10] || [10,20]
 	void Start () {
 
+		audioSource = GetComponent<AudioSource> ();
 		randStartX = Random.Range(-10, 10);
 		randFinishX = Random.Range(14, 30);
 		if (Random.Range(1,4) <= 2) {
@@ -133,7 +137,7 @@ public class GameController : MonoBehaviour {
 			if (Physics.Raycast (ray, out hit)) {
 				string hitTag = hit.transform.tag;
 				// Handle clicks to restart the game
-				if (((hitTag == "butRestart") || (hitTag == "pressdRestart")) && (Time.time > nextClick)) {
+				if (((hitTag == "butRestart") || (hitTag == "pressdRestart") || (winRestart > 0)) && (Time.time > nextClick)) {
 					clickdRestart = clickdRestart + 1;
 					nextClick = Time.time + clickRate;
 					print (clickdRestart);
@@ -407,6 +411,8 @@ public class GameController : MonoBehaviour {
 		directionX = 0;
 		directionY = 0;
 		numPerm = 1;
+		clickdRestart = 0;
+		winRestart = 0;
 
 		// Delete robot copies from previous plays
 		// Must delete only if there is at least one pressdPlay-tagged object
@@ -717,6 +723,13 @@ public class GameController : MonoBehaviour {
 			tadaRotation = robotCl.transform.rotation;
 			tadaCl = Instantiate (tada, tadaPosition, tadaRotation) as GameObject;
 			tadaCl.gameObject.tag = "youwin";
+			winRestart = 1;
+			clickdRestart = 1;
+			// Manually display restart button
+			Vector3 butPosition = pressRestartValues;
+			Quaternion butRotation = Quaternion.identity;
+			GameObject pressButton = Instantiate (pressRestart, butPosition, butRotation) as GameObject;
+			pressButton.gameObject.tag = "pressdRestart";
 		}
 		playMode = 0;
 	}
@@ -759,6 +772,7 @@ public class GameController : MonoBehaviour {
 	// dex = dx' = {1, 5, 10}, dx = {0.2, 1, 2}, same for dey = dy', dy
 	void WalkRobot (int prevPointX, int currPointX, int prevPointY, int currPointY, int directionX, int directionY, int nextDir, float dex, float dey, float speed) {
 		Vector3 vic = Vector3.zero;
+		audioSource.Play ();
 		if (nextDir == 0) {
 			switch (directionX) {
 			case 1:
