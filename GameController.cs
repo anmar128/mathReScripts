@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour {
 	public GameObject pressWinstart;
 	private int clickdRestart = 0;
 	private int winRestart = 0;
+	private int plays = 0;
 
 	// GameObject and Vector3 variables to be used
 	// for numbers-in-the-gameview initialization
@@ -102,21 +103,43 @@ public class GameController : MonoBehaviour {
 	// startPointY ~ [-7,7], finishPointY ~ [-20,-10] || [10,20]
 	void Start () {
 
+		plays = 1;
 		audioSource = GetComponent<AudioSource> ();
-		randStartX = Random.Range(-10, 10);
-		randFinishX = Random.Range(14, 30);
-		if (Random.Range(1,4) <= 2) {
-			randFinishX = -randFinishX;
+		if (plays < 3) {
+			randStartX = Random.Range (0, 5);
+			randStartY = Random.Range (0, 5);
+			randFinishX = Random.Range (10, 15);
+			randFinishY = Random.Range (10, 15);
+		} else if ((plays >= 3) && (plays < 5)) {
+			randStartX = Random.Range (-5, 5);
+			randFinishX = Random.Range (8, 12);
+			if (Random.Range (1, 4) <= 2) {
+				randFinishX = -randFinishX;
+			}
+			randStartY = Random.Range (0, 5);
+			randFinishY = Random.Range (8, 12);
+			if (Random.Range (1, 4) <= 2) {
+				randFinishY = -randFinishY;
+			}
+		} 
+		else {
+			randStartX = Random.Range(-10, 10);
+			randFinishX = Random.Range(14, 30);
+			if (Random.Range(1,4) <= 2) {
+				randFinishX = -randFinishX;
+			}
+			randStartY = Random.Range(-7, 7);
+			randFinishY = Random.Range(9, 17);
+			if (Random.Range(1,4) <= 2) {
+				randFinishY = -randFinishY;
+			}
 		}
-		randStartY = Random.Range(-7, 7);
-		randFinishY = Random.Range(9, 17);
-		if (Random.Range(1,4) <= 2) {
-			randFinishY = -randFinishY;
-		}
+
 		print (randStartX);
 		print (randStartY);
 		print (randFinishX);
 		print (randFinishY);
+		print (plays);
 
 		InitializeRobot (randStartX, randStartY, currPointX, currPointY, randFinishX, randFinishY);
 
@@ -151,6 +174,7 @@ public class GameController : MonoBehaviour {
 							Destroy (prevList [i]);
 						}
 						clickdRestart = 0;
+						//plays = plays + 1;
 						Application.LoadLevel ("Scene01");
 					}
 					else {
@@ -399,6 +423,12 @@ public class GameController : MonoBehaviour {
 		}
 
 	}
+
+	// Init to be used instead of Start function
+	// Generate start and finish numbers, call InitializeRobot function
+	//void InitializeEverything (plays) {
+	//	
+	//}
 
 	// Initialize robot and start-finish lines
 	void InitializeRobot (int randStartX, int randStartY, int currPointX, int currPointY, int randFinishX, int randFinishY) {
