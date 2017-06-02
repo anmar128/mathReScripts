@@ -105,43 +105,7 @@ public class GameController : MonoBehaviour {
 
 		plays = 1;
 		audioSource = GetComponent<AudioSource> ();
-		if (plays < 3) {
-			randStartX = Random.Range (0, 5);
-			randStartY = Random.Range (0, 5);
-			randFinishX = Random.Range (10, 15);
-			randFinishY = Random.Range (10, 15);
-		} else if ((plays >= 3) && (plays < 5)) {
-			randStartX = Random.Range (-5, 5);
-			randFinishX = Random.Range (8, 12);
-			if (Random.Range (1, 4) <= 2) {
-				randFinishX = -randFinishX;
-			}
-			randStartY = Random.Range (0, 5);
-			randFinishY = Random.Range (8, 12);
-			if (Random.Range (1, 4) <= 2) {
-				randFinishY = -randFinishY;
-			}
-		} 
-		else {
-			randStartX = Random.Range(-10, 10);
-			randFinishX = Random.Range(14, 30);
-			if (Random.Range(1,4) <= 2) {
-				randFinishX = -randFinishX;
-			}
-			randStartY = Random.Range(-7, 7);
-			randFinishY = Random.Range(9, 17);
-			if (Random.Range(1,4) <= 2) {
-				randFinishY = -randFinishY;
-			}
-		}
-
-		print (randStartX);
-		print (randStartY);
-		print (randFinishX);
-		print (randFinishY);
-		print (plays);
-
-		InitializeRobot (randStartX, randStartY, currPointX, currPointY, randFinishX, randFinishY);
+		InitializeEverything (plays);
 
 	}
 	
@@ -174,8 +138,9 @@ public class GameController : MonoBehaviour {
 							Destroy (prevList [i]);
 						}
 						clickdRestart = 0;
-						//plays = plays + 1;
-						Application.LoadLevel ("Scene01");
+						//Application.LoadLevel ("Scene01");
+						plays = plays + 1;
+						InitializeEverything (plays);
 					}
 					else {
 						Vector3 butPosition = pressRestartValues;
@@ -426,9 +391,66 @@ public class GameController : MonoBehaviour {
 
 	// Init to be used instead of Start function
 	// Generate start and finish numbers, call InitializeRobot function
-	//void InitializeEverything (plays) {
-	//	
-	//}
+	void InitializeEverything (int plays) {
+
+		// Delete all previous entries
+		GameObject[] prevList;
+		prevList = GameObject.FindGameObjectsWithTag ("Player");
+		for (int i = 0; i < prevList.Length; i++) {
+			Destroy (prevList[i]);
+		}
+		prevList = GameObject.FindGameObjectsWithTag ("youwin");
+		for (int l = 0; l < prevList.Length; l++) {
+			Destroy (prevList[l]);
+		}
+		prevList = GameObject.FindGameObjectsWithTag ("permnum");
+		for (int l = 0; l < prevList.Length; l++) {
+			Destroy (prevList[l]);
+		}
+		prevList = GameObject.FindGameObjectsWithTag ("line");
+		for (int l = 0; l < prevList.Length; l++) {
+			Destroy (prevList[l]);
+		}
+
+		// Generate start and finish numbers based on number of plays
+		if (plays < 3) {
+			randStartX = Random.Range (0, 5);
+			randStartY = Random.Range (0, 5);
+			randFinishX = Random.Range (10, 15);
+			randFinishY = Random.Range (10, 15);
+		} else if ((plays >= 3) && (plays < 5)) {
+			randStartX = Random.Range (-5, 5);
+			randFinishX = Random.Range (8, 12);
+			if (Random.Range (1, 4) <= 2) {
+				randFinishX = -randFinishX;
+			}
+			randStartY = Random.Range (0, 5);
+			randFinishY = Random.Range (8, 12);
+			if (Random.Range (1, 4) <= 2) {
+				randFinishY = -randFinishY;
+			}
+		} 
+		else {
+			randStartX = Random.Range(-10, 10);
+			randFinishX = Random.Range(14, 30);
+			if (Random.Range(1,4) <= 2) {
+				randFinishX = -randFinishX;
+			}
+			randStartY = Random.Range(-7, 7);
+			randFinishY = Random.Range(9, 17);
+			if (Random.Range(1,4) <= 2) {
+				randFinishY = -randFinishY;
+			}
+		}
+
+		print (randStartX);
+		print (randStartY);
+		print (randFinishX);
+		print (randFinishY);
+		print (plays);
+
+		InitializeRobot (randStartX, randStartY, currPointX, currPointY, randFinishX, randFinishY);
+	}
 
 	// Initialize robot and start-finish lines
 	void InitializeRobot (int randStartX, int randStartY, int currPointX, int currPointY, int randFinishX, int randFinishY) {
