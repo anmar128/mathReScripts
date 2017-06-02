@@ -394,23 +394,7 @@ public class GameController : MonoBehaviour {
 	void InitializeEverything (int plays) {
 
 		// Delete all previous entries
-		GameObject[] prevList;
-		prevList = GameObject.FindGameObjectsWithTag ("Player");
-		for (int i = 0; i < prevList.Length; i++) {
-			Destroy (prevList[i]);
-		}
-		prevList = GameObject.FindGameObjectsWithTag ("youwin");
-		for (int l = 0; l < prevList.Length; l++) {
-			Destroy (prevList[l]);
-		}
-		prevList = GameObject.FindGameObjectsWithTag ("permnum");
-		for (int l = 0; l < prevList.Length; l++) {
-			Destroy (prevList[l]);
-		}
-		prevList = GameObject.FindGameObjectsWithTag ("line");
-		for (int l = 0; l < prevList.Length; l++) {
-			Destroy (prevList[l]);
-		}
+		ClearEverything();
 
 		// Generate start and finish numbers based on number of plays
 		if (plays < 3) {
@@ -450,6 +434,39 @@ public class GameController : MonoBehaviour {
 		print (plays);
 
 		InitializeRobot (randStartX, randStartY, currPointX, currPointY, randFinishX, randFinishY);
+	}
+
+	// Clear objects from previous plays
+	// To be called when restarting
+	void ClearEverything () {
+		
+		GameObject[] prevList;
+		prevList = GameObject.FindGameObjectsWithTag ("Player");
+		for (int i = 0; i < prevList.Length; i++) {
+			Destroy (prevList[i]);
+		}
+		prevList = GameObject.FindGameObjectsWithTag ("youwin");
+		for (int l = 0; l < prevList.Length; l++) {
+			Destroy (prevList[l]);
+		}
+		prevList = GameObject.FindGameObjectsWithTag ("breaknum");
+		for (int l = 0; l < prevList.Length; l++) {
+			Destroy (prevList[l]);
+		}
+		prevList = GameObject.FindGameObjectsWithTag ("permnum");
+		for (int l = 0; l < prevList.Length; l++) {
+			Destroy (prevList[l]);
+		}
+		prevList = GameObject.FindGameObjectsWithTag ("line");
+		for (int l = 0; l < prevList.Length; l++) {
+			Destroy (prevList[l]);
+		}
+		int movlen = movs.Length;
+		for (int i = movlen; i > 0; i--) {
+			movs = DeleteFromActionList (movs, i);
+			EnqueueToActionList (movs);
+		}
+
 	}
 
 	// Initialize robot and start-finish lines
