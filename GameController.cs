@@ -59,6 +59,8 @@ public class GameController : MonoBehaviour {
 	public GameObject numZero;
 	public GameObject numComma;
 	public GameObject numMinus;
+	public GameObject numParen1;
+	public GameObject numParen2;
 
 	// GameObject and Rigidbody variables to be used for the robot gameplay
 	private GameObject robotCl;
@@ -480,6 +482,11 @@ public class GameController : MonoBehaviour {
 		else {
 			numTag = "permnum";
 		}
+		// Insert parenthesis
+		//Vector3 parenPosition = new Vector3 (numPosition.x, numPosition.y - 0.25f, numPosition.z);
+		currNum = Instantiate(numParen1, numPosition, numRotation) as GameObject;
+		currNum.gameObject.tag = numTag;
+		numPosition.x = numPosition.x + 0.2f;
 		for (int i = 0; i < strNumX.Length; i++) 
 		{
 			char strCurr = strNumX [i];
@@ -590,6 +597,11 @@ public class GameController : MonoBehaviour {
 			}
 			numPosition.x = numPosition.x + 0.2f;
 		}
+		// Insert parenthesis
+		//Vector3 parenPosition = new Vector3 (numPosition.x, numPosition.y - 0.25f, numPosition.z);
+		currNum = Instantiate(numParen2, numPosition, numRotation) as GameObject;
+		currNum.gameObject.tag = numTag;
+		numPosition.x = numPosition.x + 0.2f;
 	}
 
 	// Calculation of the robot's new position according to movs
