@@ -332,7 +332,7 @@ public class GameController : MonoBehaviour {
 				}
 				// Stop play mode -- click on Stop button
 				// Stop button should work even when in play-mode
-				if ((hitTag == "butStop") && (Time.time > nextClick)) {
+				if ((hitTag == "butStop") && (playMode == 0) && (Time.time > nextClick)) {
 					nextClick = Time.time + clickRate;
 					// Update Stop-button
 					pressTag = "pressdStop";
@@ -397,12 +397,75 @@ public class GameController : MonoBehaviour {
 		ClearEverything();
 
 		// Generate start and finish numbers based on number of plays
-		if (plays < 3) {
+		if (plays == 1) {
+			randStartX = Random.Range (0, 2);
+			randStartY = Random.Range (0, 2);
+			randFinishY = randStartY;
+			if (Random.Range (1, 4) <= 2) {
+				randFinishX = randStartX + 5;
+			} 
+			else {
+				randFinishX = randStartX + 10;
+			}
+		}
+		else if (plays == 2) {
+			randStartX = Random.Range (0, 5);
+			randStartY = Random.Range (0, 5);
+			if (Random.Range (1, 4) <= 2) {
+				randFinishX = randStartX + 5;
+				randFinishY = randStartY + 10;
+			} 
+			else {
+				randFinishX = randStartX + 10;
+				randFinishY = randStartY + 5;
+			}
+		}
+		else if ((plays > 2) && (plays <= 4)) {
+			randStartX = Random.Range (0, 5);
+			randStartY = Random.Range (0, 5);
+			if (Random.Range (1, 4) <= 2) {
+				randFinishX = randStartX + 15;
+				randFinishY = randStartY + 10;
+			} 
+			else {
+				randFinishX = randStartX + 10;
+				randFinishY = randStartY + 15;
+			}
+		} else if ((plays > 4) && (plays <= 6)) {
 			randStartX = Random.Range (0, 5);
 			randStartY = Random.Range (0, 5);
 			randFinishX = Random.Range (10, 15);
 			randFinishY = Random.Range (10, 15);
-		} else if ((plays >= 3) && (plays < 5)) {
+		} 
+		else if ((plays > 6) && (plays <= 10)) {
+			randStartX = Random.Range (0, 5);
+			randStartY = Random.Range (0, 5);
+			randFinishX = Random.Range (10, 15);
+			randFinishY = Random.Range (10, 15);
+			if (Random.Range (1, 4) <= 2) {
+				int t = randStartX;
+				randStartX = randFinishX;
+				randFinishX = t;
+				t = randStartY;
+				randStartY = randFinishY;
+				randFinishY = t;
+			}
+		} 
+		else if ((plays > 10) && (plays <= 15)) {
+			randStartX = Random.Range (0, 10);
+			randFinishX = Random.Range (14, 30);
+			randStartY = Random.Range (0, 7);
+			randFinishY = Random.Range (9, 17);
+			if (Random.Range (1, 4) <= 2) {
+				int t = randStartX;
+				randStartX = randFinishX;
+				randFinishX = t;
+				t = randStartY;
+				randStartY = randFinishY;
+				randFinishY = t;
+			}
+		}
+		else if ((plays > 15 && (plays <= 20))) {
 			randStartX = Random.Range (-5, 5);
 			randFinishX = Random.Range (8, 12);
 			if (Random.Range (1, 4) <= 2) {
@@ -413,7 +476,8 @@ public class GameController : MonoBehaviour {
 			if (Random.Range (1, 4) <= 2) {
 				randFinishY = -randFinishY;
 			}
-		} 
+		}
+
 		else {
 			randStartX = Random.Range(-10, 10);
 			randFinishX = Random.Range(14, 30);
@@ -458,6 +522,14 @@ public class GameController : MonoBehaviour {
 			Destroy (prevList[l]);
 		}
 		prevList = GameObject.FindGameObjectsWithTag ("line");
+		for (int l = 0; l < prevList.Length; l++) {
+			Destroy (prevList[l]);
+		}
+		prevList = GameObject.FindGameObjectsWithTag ("pressdPlay");
+		for (int l = 0; l < prevList.Length; l++) {
+			Destroy (prevList[l]);
+		}
+		prevList = GameObject.FindGameObjectsWithTag ("pressdStop");
 		for (int l = 0; l < prevList.Length; l++) {
 			Destroy (prevList[l]);
 		}
@@ -900,7 +972,10 @@ public class GameController : MonoBehaviour {
 
 		// In case of more than 15 moves, restart without notification
 		if (movs.Length > 15) {
-			Application.LoadLevel ("Scene01");
+			//Application.LoadLevel ("Scene01");
+			ClearEverything ();
+			InitializeRobot (randStartX, randStartY, currPointX, currPointY, randFinishX, randFinishY);
+			return;
 		}
 
 		// List containing the actions -- To be used for tags
